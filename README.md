@@ -1,2 +1,2 @@
 # ShootingGame
-using pygame
+used Library: pygame
