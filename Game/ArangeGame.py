@@ -14,11 +14,11 @@ RemonImg = pygame.image.load("remon.png")
 RemonXaxis, RemonYaxis = 350, 420
 RemonXDegree = 0
 
-# 炎
-flameImg = pygame.image.load('flame.png')
-flameXAxis = random.randint(0, 750)
-flameYAxis = random.randint(50, 150)
-flameXDegree, flameYDegree = 1, 40
+# クロスケ
+kurosukeImg = pygame.image.load('kurosuke.png')
+kurosukeXAxis = random.randint(0, 750)
+kurosukeYAxis = random.randint(50, 150)
+kurosukeXDegree, kurosukeYDegree = 1, 40
 movingSpeed = random.uniform(0, 0.7)
 
 # 撃破数
@@ -35,8 +35,8 @@ def remon(xAxis, yAxis):
     screen.blit(RemonImg, (xAxis, yAxis))
 
 
-def flame(xAxis, yAxis):
-    screen.blit(flameImg, (xAxis, yAxis))
+def kurosuke(xAxis, yAxis):
+    screen.blit(kurosukeImg, (xAxis, yAxis))
 
 
 def fireBullet(xAxis, yAxis):
@@ -45,9 +45,9 @@ def fireBullet(xAxis, yAxis):
     screen.blit(bulletImg, (xAxis+16, yAxis+16))
 
 
-def isBulletContact(flameXAxis, flameYAxis, bulletXAxis, bulletYAxis):
-    distance = math.sqrt(math.pow(flameXAxis-bulletXAxis, 2) +
-                         math.pow(flameYAxis-bulletYAxis, 2))
+def isBulletContact(kurosukeXAxis, kurosukeYAxis, bulletXAxis, bulletYAxis):
+    distance = math.sqrt(math.pow(kurosukeXAxis-bulletXAxis, 2) +
+                         math.pow(kurosukeYAxis-bulletYAxis, 2))
     if distance < 27:
         return True
     else:
@@ -59,10 +59,7 @@ running = True
 # 画面起動
 while running:
     screen.fill('black')
-    # 文字スタイルの設定
-    #font = pygame.font.SysFont(None, 80)
-    #message = font.render('testMessage', False, 'black')
-    #screen.blit(message, (500, 300))
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -91,28 +88,29 @@ while running:
         RemonXaxis = 750
 
     # 炎の位置情報更新
-    if flameYAxis > 300:
+    if kurosukeYAxis > 300:
         break
-    flameXAxis += flameXDegree
-    if flameXAxis <= 0:
-        flameXDegree = movingSpeed
-        flameYAxis += flameYDegree
-    elif flameXAxis >= 800:
-        flameXDegree = -movingSpeed
-        flameYAxis += flameYDegree
+    kurosukeXAxis += kurosukeXDegree
+    if kurosukeXAxis <= 0:
+        kurosukeXDegree = movingSpeed
+        kurosukeYAxis += kurosukeYDegree
+    elif kurosukeXAxis >= 800:
+        kurosukeXDegree = -movingSpeed
+        kurosukeYAxis += kurosukeYDegree
 
     # 接触情報の更新
-    contact = isBulletContact(flameXAxis, flameYAxis, bulletXAxis, bulletYAxis)
+    contact = isBulletContact(
+        kurosukeXAxis, kurosukeYAxis, bulletXAxis, bulletYAxis)
     if contact:
         bulletYAxis = 300
         bulletState = 'ready'
         defeatNumber += 1
-        flameXAxis = random.randint(0, 750)
-        flameYAxis = random.randint(50, 150)
+        kurosukeXAxis = random.randint(0, 750)
+        kurosukeYAxis = random.randint(50, 150)
 
     # bullet情報の更新
-    if bulletXAxis <= 0:
-        bulletXAxis = 300
+    if bulletYAxis <= 0:
+        bulletYAxis = 300
         bulletState = 'ready'
 
     if bulletState == 'fire':
@@ -125,6 +123,6 @@ while running:
     screen.blit(defeat, (390, 50))
 
     remon(RemonXaxis, RemonYaxis)
-    flame(flameXAxis, flameYAxis)
+    kurosuke(kurosukeXAxis, kurosukeYAxis)
 
     pygame.display.update()
