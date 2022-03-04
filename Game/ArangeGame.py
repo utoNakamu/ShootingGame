@@ -1,7 +1,6 @@
 import math
 import pygame
 import random
-import math
 
 # 初期化
 pygame.init()
